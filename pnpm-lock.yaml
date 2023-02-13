@@ -4,6 +4,7 @@ specifiers:
   '@rushstack/eslint-patch': ^1.1.4
   '@types/jsdom': ^20.0.1
   '@types/node': ^18.11.12
+  '@typescript-eslint/parser': ^5.22.0
   '@vitejs/plugin-vue': ^4.0.0
   '@vue/eslint-config-prettier': ^7.0.0
   '@vue/eslint-config-typescript': ^11.0.0
@@ -29,6 +30,7 @@ devDependencies:
   '@rushstack/eslint-patch': registry.npmmirror.com/@rushstack/eslint-patch/1.2.0
   '@types/jsdom': registry.npmmirror.com/@types/jsdom/20.0.1
   '@types/node': registry.npmmirror.com/@types/node/18.13.0
+  '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.51.0_eslint@8.34.0+typescript@4.7.4
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/4.0.0_vite@4.1.1+vue@3.2.47
   '@vue/eslint-config-prettier': registry.npmmirror.com/@vue/eslint-config-prettier/7.0.0_eslint@8.34.0+prettier@2.8.4
   '@vue/eslint-config-typescript': registry.npmmirror.com/@vue/eslint-config-typescript/11.0.2_2988bd05a9ca62e733ec2bdda21ca081
