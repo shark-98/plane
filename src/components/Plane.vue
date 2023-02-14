@@ -1,29 +1,39 @@
 <template>
-	<Container>
-		<Sprite :texture="PlaneImg" :x="Plane.x" :y="Plane.y"></Sprite>
+	<Container :x="plane.x" :y="plane.y">
+		<Sprite :texture="PlaneImg"></Sprite>
 	</Container>
 </template>
 
 <script setup lang="ts">
 import PlaneImg from "../assets/plane.png";
-import { reactive } from "vue";
-import { setupPlane } from "../game";
+import type { PropType } from "vue";
+import type { Plane } from "../game";
 
-const Plane = setupPlane(reactive({}));
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { plane } = defineProps({
+	plane: {
+		type: Object as PropType<Plane>,
+		required: true
+	}
+});
 
 window.addEventListener("keydown", e => {
+	if (e.code === "Space") {
+		plane.attack();
+	}
+
 	switch (e.code) {
 		case "ArrowUp":
-			Plane.moveUp();
+			plane.moveUp();
 			break;
 		case "ArrowDown":
-			Plane.moveDown();
+			plane.moveDown();
 			break;
 		case "ArrowLeft":
-			Plane.moveLeft();
+			plane.moveLeft();
 			break;
 		case "ArrowRight":
-			Plane.moveRight();
+			plane.moveRight();
 			break;
 
 		default:
