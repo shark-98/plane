@@ -1,26 +1,30 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { Bullet } from "./Bullet";
+
+function createBullet() {
+	const bullet = new Bullet();
+	bullet.speed = 1;
+
+	return bullet;
+}
 describe("Bullet", () => {
-	it("move", () => {
-		const bullet = new Bullet();
-		bullet.y = 1;
-		bullet.speed = 1;
+	it("移动的时候是向上移动的", () => {
+		const bullet = createBullet();
 
 		bullet.move();
 
-		expect(bullet.y).toBe(0);
+		expect(bullet.y).toBe(-1);
 	});
 
-	it("超过边界的时候，应该触发回调onDestory", () => {
-		const bullet = new Bullet();
+	it("当移动超出边界的时候子弹会移除, 暂时子弹的边界还不可以被外部设置, 默认为 < 0 ", () => {
+		const bullet = createBullet();
 		bullet.x = 0;
-		bullet.y = 0;
 		bullet.speed = 1;
-		bullet.border = 0;
-		bullet.onDestory = vi.fn();
+		const destroyFn = vi.fn();
+		bullet.onDestroy(destroyFn);
 
 		bullet.move();
 
-		expect(bullet.onDestory).toBeCalled();
+		expect(destroyFn).toBeCalled();
 	});
 });

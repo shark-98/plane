@@ -1,10 +1,9 @@
 import { createRenderer } from "vue";
-import { Container, Text, Sprite, Texture } from "pixi.js";
+import { Container, Sprite, Text, Texture } from "pixi.js";
 
 const renderer = createRenderer<Container, Container>({
-	createElement(type) {
+	createElement(type: string) {
 		let element;
-
 		switch (type) {
 			case "Container":
 				element = new Container();
@@ -12,32 +11,29 @@ const renderer = createRenderer<Container, Container>({
 			case "Sprite":
 				element = new Sprite();
 				break;
-
 			default:
-				throw new Error(`type错误${type}`);
-				break;
+				throw new Error(`没有实现的类型 ${type}`);
 		}
-
 		return element;
 	},
+	insert(el, parent) {
+		parent.addChild(el);
+	},
+
 	patchProp(el, key, prevValue, nextValue) {
+		console.log(key);
 		switch (key) {
 			case "texture":
-				(el as Sprite)[key] = Texture.from(nextValue);
+				(el as Sprite).texture = Texture.from(nextValue);
 				break;
 
 			default:
-				(el as any)[key] = nextValue;
+				el[key] = nextValue;
 				break;
-		}
-	},
-	insert(el, parent) {
-		if (el && parent) {
-			parent.addChild(el);
 		}
 	},
 	remove(el) {
-		if (el && el.parent) {
+		if (el.parent) {
 			el.parent.removeChild(el);
 		}
 	},
@@ -49,14 +45,14 @@ const renderer = createRenderer<Container, Container>({
 	},
 	setText() {},
 	setElementText() {},
-	parentNode(el) {
-		return el.parent;
+	parentNode(node) {
+		return node.parent;
 	},
 	nextSibling() {
 		return null;
 	}
 });
 
-export const createApp = (rootComponent: any) => {
+export function createApp(rootComponent) {
 	return renderer.createApp(rootComponent);
-};
+}

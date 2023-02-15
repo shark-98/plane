@@ -1,15 +1,21 @@
 export class Bullet {
+	public speed: number = 5;
 	public x: number = 0;
 	public y: number = 0;
-	public speed: number = 5;
-	public border: number = 0;
-	public onDestory: any;
+	public width: number = 0;
+	public height: number = 0;
 	constructor() {}
-	move() {
+
+	public move() {
 		this.y -= this.speed;
 
-		if (this.y <= this.border) {
-			this.onDestory && this.onDestory();
+		if (this.y <= 0) {
+			this._destroyFn && this._destroyFn(this);
 		}
+	}
+
+	private _destroyFn;
+	onDestroy(destroyFn: (...args) => void) {
+		this._destroyFn = destroyFn;
 	}
 }

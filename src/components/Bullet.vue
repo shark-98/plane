@@ -1,21 +1,29 @@
 <template>
-	<Container :x="bullet.x" :y="bullet.y">
+	<Container class="Bullet" :x="bullet.x" :y="bullet.y">
 		<Sprite :texture="bulletImg"></Sprite>
 	</Container>
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue";
+import { PropType } from "vue";
 import bulletImg from "../assets/bullet.png";
-import type { Bullet } from "../game";
+import { Bullet } from "../game";
 
-// eslint-disable-next-line vue/no-setup-props-destructure
 const { bullet } = defineProps({
 	bullet: {
 		type: Object as PropType<Bullet>,
 		required: true
 	}
 });
+
+bullet.width = 45;
+bullet.height = 75;
 </script>
 
-<style scoped></style>
+<style scoped>
+.Bullet {
+	width: 20px;
+	height: 20px;
+	background: green;
+}
+</style>

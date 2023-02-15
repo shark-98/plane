@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import Plane from "./components/Plane.vue";
-import Bullet from "./components/Bullet.vue";
-import { initGame } from "./game";
-import { reactive } from "vue";
-
-const { plane, bullets } = initGame(reactive({}), reactive([]));
+import Game from "./components/Game.vue";
 </script>
 
 <template>
-	<Container>
-		<Plane :plane="plane"></Plane>
-		<Bullet v-for="bullet in bullets" :key="bullet" :bullet="bullet"></Bullet>
-	</Container>
+	<Game></Game>
 </template>
+
+<style>
+#app {
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
+	margin-top: 60px;
+}
+</style>

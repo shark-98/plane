@@ -4,12 +4,11 @@
 	</Container>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import PlaneImg from "../assets/plane.png";
-import type { PropType } from "vue";
-import type { Plane } from "../game";
+import { onMounted, PropType } from "vue";
+import { Plane } from "../game/Plane";
 
-// eslint-disable-next-line vue/no-setup-props-destructure
 const { plane } = defineProps({
 	plane: {
 		type: Object as PropType<Plane>,
@@ -17,27 +16,27 @@ const { plane } = defineProps({
 	}
 });
 
-window.addEventListener("keydown", e => {
-	if (e.code === "Space") {
-		plane.attack();
-	}
-
+function keydownHandler(e: KeyboardEvent) {
 	switch (e.code) {
-		case "ArrowUp":
-			plane.moveUp();
-			break;
-		case "ArrowDown":
-			plane.moveDown();
-			break;
 		case "ArrowLeft":
 			plane.moveLeft();
 			break;
 		case "ArrowRight":
 			plane.moveRight();
 			break;
-
-		default:
+		case "ArrowUp":
+			plane.moveUp();
+			break;
+		case "ArrowDown":
+			plane.moveDown();
+			break;
+		case "Space":
+			plane.attack();
 			break;
 	}
+}
+
+onMounted(() => {
+	window.addEventListener("keydown", keydownHandler);
 });
 </script>

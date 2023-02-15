@@ -1,24 +1,58 @@
-import { Application } from "pixi.js";
-import { setupPlane, type Plane } from "./Plane";
+// application service
+// 胶水层
 export * from "./Plane";
 export * from "./Bullet";
+export * from "./EnemyPlane";
+import { Plane, setupPlane } from "./Plane";
+import { Application } from "pixi.js";
+import { Bullet } from "./Bullet";
+import { EnemyPlane, initEnemyPlanes, runEnemyPlanes } from "./EnemyPlane";
+import { fighting } from "./fighting";
 
-export const game = new Application({
+export let game: Application;
+
+game = new Application({
 	width: 500,
 	height: 500
 });
 
-document.body.append(game.view as unknown as Node);
+document.body.append(game.view);
 
-export const initGame = (_plane: any, bullets: any) => {
-	const plane = setupPlane(_plane, bullets);
+export function getRootContainer() {
+	return game.stage;
+}
 
-	mainTicker(plane);
+interface initGameResult {
+	plane: Plane;
+	bullets: Bullet[];
+	enemyPlanes: EnemyPlane[];
+}
 
-	return { plane, bullets };
+type initGameOptions = {
+	plane: any;
+	bullets: Bullet[];
+	enemyPlanes: EnemyPlane[];
 };
-function mainTicker(plane: Plane) {
+
+export function initGame({ plane, bullets, enemyPlanes }: initGameOptions): initGameResult {
+	setupPlane(plane, bullets);
+
+	initEnemyPlanes(enemyPlanes);
+
+	run(plane, enemyPlanes);
+
+	return {
+		plane,
+		bullets,
+		enemyPlanes
+	};
+}
+
+export function run(plane: Plane, enemyPlanes: EnemyPlane[]) {
+	// 战斗逻辑
 	game.ticker.add(() => {
 		plane.run();
+		runEnemyPlanes(enemyPlanes);
+		fighting(plane, enemyPlanes);
 	});
 }

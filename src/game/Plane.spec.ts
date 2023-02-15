@@ -1,69 +1,62 @@
-import { describe, expect, it } from "vitest";
-import { Bullet } from "./Bullet";
+import { expect, describe, it } from "vitest";
 import { setupPlane } from "./Plane";
 
-describe("plane", () => {
-	const defaultOption = {
-		x: 0,
-		y: 0,
-		speed: 5
-	};
-	const createplane = () => {
-		return setupPlane({}, [], defaultOption);
-	};
-	it("moveUp", () => {
-		const plane = createplane();
-		plane.moveUp();
-		expect(plane.y).toBe((defaultOption.y -= defaultOption.speed));
-	});
-	it("moveDown", () => {
-		const plane = createplane();
-		plane.moveDown();
-		expect(plane.y).toBe((defaultOption.y += defaultOption.speed));
-	});
+describe("Self Plane", () => {
+	describe("移动", () => {
+		const planeOptions = {
+			x: 0,
+			y: 0,
+			speed: 1
+		};
 
-	it("moveLeft", () => {
-		const plane = createplane();
-		plane.moveLeft();
-		expect(plane.x).toBe((defaultOption.x -= defaultOption.speed));
-	});
-	it("moveRight", () => {
-		const plane = createplane();
-		plane.moveRight();
-		expect(plane.x).toBe((defaultOption.x += defaultOption.speed));
-	});
-});
+		function createPlane() {
+			const plane = setupPlane({}, [], planeOptions);
+			return plane;
+		}
+		it("可以向左移动", () => {
+			const plane = createPlane();
 
-describe("攻击", () => {
-	it("attack", () => {
-		const bullets: any[] = [];
-		const plane = setupPlane({}, bullets);
+			plane.moveLeft();
 
-		plane.attack();
+			expect(plane.x).toBe(-1);
+			expect(plane.y).toBe(0);
+		});
 
-		expect(bullets.length).toBe(1);
-	});
-});
+		it("可以向右移动", () => {
+			const plane = createPlane();
 
-describe("run", () => {
-	it("移动所有的子弹", () => {
-		const bullet = new Bullet();
-		bullet.y = 0;
-		const bullets = [bullet];
-		const plane = setupPlane({}, bullets);
+			plane.moveRight();
 
-		plane.run();
+			expect(plane.x).toBe(1);
+			expect(plane.y).toBe(0);
+		});
 
-		expect(bullets[0].y).not.toBe(0);
+		it("可以向下移动", () => {
+			const plane = createPlane();
+
+			plane.moveDown();
+
+			expect(plane.x).toBe(0);
+			expect(plane.y).toBe(1);
+		});
+
+		it("可以向上移动", () => {
+			const plane = createPlane();
+
+			plane.moveUp();
+
+			expect(plane.x).toBe(0);
+			expect(plane.y).toBe(-1);
+		});
 	});
 
-	it("子弹超过边界后，会移除", () => {
-		const bullets: any[] = [];
-		const plane = setupPlane({}, bullets, { x: 0, y: 0 });
-		plane.attack();
+	describe("攻击", () => {
+		it("当发动攻击的时候会发射一个炮弹", () => {
+			const bullets: any = [];
+			const plane = setupPlane({}, bullets);
 
-		plane.run();
-
-		expect(bullets.length).toBe(0);
+			plane.attack();
+			expect(bullets.length).toBe(1);
+		});
 	});
 });
